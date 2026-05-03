@@ -25,7 +25,7 @@ The system allows users to submit feedback via a web form with proper validation
 https://drive.google.com/drive/folders/1zJrbTVEmFh8JTdmPRmWdw5vguLF7oNeX?usp=sharing  
 
 🔗 **GitHub Repository:**  
-https://github.com/techie-013/Spectant4  
+https://github.com/techie-013/Spectant  
 
 ---
 
