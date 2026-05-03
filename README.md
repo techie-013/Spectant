@@ -47,7 +47,7 @@ https://github.com/techie-013/Spectant
 
 After deployment:
 
-- **Frontend:** https://your-vercel-url.vercel.app  
+- **Frontend:** [https://your-vercel-url.vercel.app  ](https://spectant.vercel.app/)
 - **API:** https://your-vercel-url.vercel.app/api/feedback  
 
 ---
