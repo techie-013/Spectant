@@ -1,0 +1,8 @@
+cat > package.json << 'EOF'
+{
+  "name": "feedback-system-vercel",
+  "version": "1.0.0",
+  "description": "Feedback form system on Vercel",
+  "main": "api/feedback.js"
+}
+EOF

@@ -2,18 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Secure feedback form system with XSS protection and rate limiting">
-  <meta name="author" content="Your Name">
-  <title>Feedback Form System | Secure Feedback Collection</title>
-  
-  <!-- Favicon (optional - removes 404 error) -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Form System</title>
   <style>
-    /* ============================================
-       RESET & BASE STYLES
-    ============================================ */
     * {
       margin: 0;
       padding: 0;
@@ -21,202 +12,146 @@
     }
     
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
-      position: relative;
     }
     
-    /* Animated background effect */
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.05)"/><circle cx="150" cy="120" r="30" fill="rgba(255,255,255,0.03)"/></svg>');
-      pointer-events: none;
-    }
-    
-    /* ============================================
-       MAIN CONTAINER
-    ============================================ */
     .container {
-      background: rgba(255, 255, 255, 0.98);
-      border-radius: 24px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       padding: 40px;
       max-width: 550px;
       width: 100%;
-      animation: fadeInUp 0.6s ease-out;
-      position: relative;
-      z-index: 1;
-    }
-    
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    /* ============================================
-       HEADER SECTION
-    ============================================ */
-    .header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-    
-    .emoji-icon {
-      font-size: 48px;
-      margin-bottom: 12px;
-      display: inline-block;
-      animation: bounce 2s infinite;
-    }
-    
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
     }
     
     h1 {
-      color: #1a202c;
+      color: #333;
       font-size: 28px;
-      font-weight: 700;
       margin-bottom: 8px;
-      letter-spacing: -0.5px;
     }
     
     .subtitle {
-      color: #718096;
+      color: #666;
+      margin-bottom: 30px;
       font-size: 14px;
-      line-height: 1.5;
       border-left: 3px solid #667eea;
       padding-left: 12px;
-      margin-top: 8px;
     }
     
-    /* ============================================
-       FORM STYLES
-    ============================================ */
     .form-group {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
     
     label {
       display: block;
       margin-bottom: 8px;
-      color: #2d3748;
+      color: #333;
       font-weight: 600;
       font-size: 14px;
     }
     
     .required {
       color: #e53e3e;
-      margin-left: 4px;
     }
     
     input, textarea {
       width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
       font-size: 16px;
       transition: all 0.3s ease;
       font-family: inherit;
-      background: #f7fafc;
     }
     
     input:focus, textarea:focus {
       outline: none;
       border-color: #667eea;
-      background: white;
       box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-    
-    input:hover, textarea:hover {
-      border-color: #cbd5e0;
     }
     
     textarea {
       resize: vertical;
-      min-height: 120px;
+      min-height: 100px;
     }
     
-    /* Input validation styles */
-    input.error-input, textarea.error-input {
-      border-color: #fc8181;
-      background: #fff5f5;
-    }
-    
-    /* ============================================
-       BUTTON STYLES
-    ============================================ */
-    .submit-btn {
+    button {
       width: 100%;
-      padding: 14px 20px;
+      padding: 14px;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      margin-top: 8px;
-      position: relative;
-      overflow: hidden;
+      margin-top: 10px;
     }
     
-    .submit-btn::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      transform: translate(-50%, -50%);
-      transition: width 0.6s, height 0.6s;
-    }
-    
-    .submit-btn:hover::before {
-      width: 300px;
-      height: 300px;
-    }
-    
-    .submit-btn:hover {
+    button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
     }
     
-    .submit-btn:active {
-      transform: translateY(0);
-    }
-    
-    .submit-btn:disabled {
-      opacity: 0.7;
+    button:disabled {
+      opacity: 0.6;
       cursor: not-allowed;
-      transform: none;
     }
     
-    /* Loading spinner */
+    .success {
+      color: #2e7d32;
+      margin-top: 20px;
+      padding: 12px;
+      background: #e8f5e9;
+      border-radius: 10px;
+      border-left: 4px solid #4caf50;
+    }
+    
+    .error {
+      color: #c62828;
+      margin-top: 20px;
+      padding: 12px;
+      background: #ffebee;
+      border-radius: 10px;
+      border-left: 4px solid #f44336;
+    }
+    
+    .info-box {
+      margin-top: 25px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 10px;
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .info-box strong {
+      color: #333;
+      display: block;
+      margin-bottom: 8px;
+    }
+    
+    .info-box ul {
+      margin-left: 20px;
+      margin-top: 5px;
+    }
+    
+    .info-box li {
+      margin: 5px 0;
+    }
+    
     .spinner {
       display: inline-block;
       width: 18px;
       height: 18px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255,255,255,0.3);
       border-radius: 50%;
       border-top-color: white;
       animation: spin 0.6s linear infinite;
@@ -228,269 +163,131 @@
       to { transform: rotate(360deg); }
     }
     
-    /* ============================================
-       MESSAGE STYLES
-    ============================================ */
-    .message-container {
-      margin-top: 20px;
+    .error-input {
+      border-color: #f44336 !important;
+      background: #ffebee !important;
     }
     
-    .success-message {
-      background: #c6f6d5;
-      color: #22543d;
-      padding: 14px 16px;
-      border-radius: 12px;
-      border-left: 4px solid #38a169;
-      animation: slideIn 0.3s ease;
-      font-size: 14px;
+    .char-counter {
+      font-size: 11px;
+      color: #718096;
+      margin-top: 5px;
+      text-align: right;
     }
     
-    .error-message {
-      background: #fed7d7;
-      color: #742a2a;
-      padding: 14px 16px;
-      border-radius: 12px;
-      border-left: 4px solid #e53e3e;
-      animation: slideIn 0.3s ease;
-      font-size: 14px;
+    .char-counter.warning {
+      color: #ecc94b;
     }
     
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateX(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+    .char-counter.danger {
+      color: #e53e3e;
     }
     
-    /* ============================================
-       INFO BOX
-    ============================================ */
-    .info-box {
-      margin-top: 28px;
-      padding: 16px;
-      background: #edf2f7;
-      border-radius: 12px;
-      font-size: 12px;
-      color: #4a5568;
-    }
-    
-    .info-box strong {
-      color: #2d3748;
-      display: block;
-      margin-bottom: 8px;
-      font-size: 13px;
-    }
-    
-    .info-box ul {
-      margin-left: 20px;
-      margin-top: 4px;
-    }
-    
-    .info-box li {
-      margin: 6px 0;
-      line-height: 1.4;
-    }
-    
-    .badge {
-      display: inline-block;
-      background: #48bb78;
-      color: white;
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 20px;
-      margin-left: 8px;
-    }
-    
-    /* ============================================
-       FOOTER
-    ============================================ */
-    .footer {
-      margin-top: 24px;
-      text-align: center;
-      font-size: 12px;
-      color: #a0aec0;
-      border-top: 1px solid #e2e8f0;
-      padding-top: 20px;
-    }
-    
-    .footer a {
-      color: #667eea;
-      text-decoration: none;
-    }
-    
-    .footer a:hover {
-      text-decoration: underline;
-    }
-    
-    /* ============================================
-       RESPONSIVE DESIGN
-    ============================================ */
     @media (max-width: 600px) {
       .container {
-        padding: 28px 20px;
+        padding: 25px;
       }
-      
       h1 {
         font-size: 24px;
-      }
-      
-      .emoji-icon {
-        font-size: 40px;
-      }
-      
-      input, textarea, .submit-btn {
-        font-size: 14px;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      body {
-        padding: 12px;
-      }
-      
-      .container {
-        padding: 20px 16px;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Header Section -->
-    <div class="header">
-      <div class="emoji-icon">📝</div>
-      <h1>Share Your Feedback</h1>
-      <div class="subtitle">
-        We value your opinion and continuously work to improve our service
-      </div>
-    </div>
+    <h1>📝 Share Your Feedback</h1>
+    <div class="subtitle">We value your opinion and continuously improve</div>
     
-    <!-- Feedback Form -->
-    <form id="feedbackForm" novalidate>
+    <form id="feedbackForm">
       <div class="form-group">
-        <label for="name">
-          Full Name <span class="required">*</span>
-        </label>
-        <input 
-          type="text" 
-          id="name" 
-          name="name"
-          placeholder="Enter your full name" 
-          autocomplete="name"
-          maxlength="100"
-          required
-        />
+        <label>Full Name <span class="required">*</span></label>
+        <input type="text" id="name" placeholder="Enter your full name" autocomplete="off" maxlength="100" />
       </div>
       
       <div class="form-group">
-        <label for="email">
-          Email Address <span class="required">*</span>
-        </label>
-        <input 
-          type="email" 
-          id="email" 
-          name="email"
-          placeholder="you@example.com" 
-          autocomplete="email"
-          required
-        />
+        <label>Email Address <span class="required">*</span></label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="off" />
       </div>
       
       <div class="form-group">
-        <label for="feedback">
-          Your Feedback <span class="required">*</span>
-        </label>
-        <textarea 
-          id="feedback" 
-          name="feedback"
-          placeholder="Tell us what you think about our service..." 
-          maxlength="2000"
-          required
-        ></textarea>
+        <label>Your Feedback <span class="required">*</span></label>
+        <textarea id="feedback" placeholder="Tell us what you think..." maxlength="2000"></textarea>
+        <div id="charCounter" class="char-counter">2000 characters remaining</div>
       </div>
       
-      <button type="submit" class="submit-btn" id="submitBtn">
-        ✨ Submit Feedback
-      </button>
+      <button type="submit" id="submitBtn">Submit Feedback</button>
     </form>
     
-    <!-- Message Container -->
-    <div id="messageContainer" class="message-container"></div>
+    <div id="messageContainer"></div>
     
-    <!-- Security Info Box -->
     <div class="info-box">
-      <strong>🔒 Security Features</strong>
+      <strong>🔒 Security Features Implemented:</strong>
       <ul>
-        <li>✅ <strong>XSS Protection</strong> - All inputs are sanitized <span class="badge">Active</span></li>
-        <li>✅ <strong>Rate Limiting</strong> - Max 5 submissions per minute per IP <span class="badge">Active</span></li>
-        <li>✅ <strong>Email Validation</strong> - Strict format checking <span class="badge">Active</span></li>
-        <li>✅ <strong>Input Limits</strong> - Name: 2-100 chars | Feedback: 5-2000 chars <span class="badge">Active</span></li>
+        <li>✅ XSS Protection (HTML escaped)</li>
+        <li>✅ Rate Limiting (5 requests/minute)</li>
+        <li>✅ Email Validation (strict regex)</li>
+        <li>✅ Input Sanitization</li>
       </ul>
-    </div>
-    
-    <!-- Footer -->
-    <div class="footer">
-      <p>🔐 Your feedback is securely transmitted and stored | <a href="#" id="resetLink">Reset Form</a></p>
     </div>
   </div>
   
   <script>
-    // ============================================
-    // DOM Elements
-    // ============================================
+    // Get DOM elements
     const form = document.getElementById('feedbackForm');
     const submitBtn = document.getElementById('submitBtn');
     const messageContainer = document.getElementById('messageContainer');
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('email');
     const feedbackInput = document.getElementById('feedback');
+    const charCounter = document.getElementById('charCounter');
     
-    // API Endpoint (works on Vercel and locally)
+    // API URL
     const API_URL = '/api/feedback';
     
-    // ============================================
-    // Helper Functions
-    // ============================================
+    // Character counter
+    feedbackInput.addEventListener('input', function() {
+      const remaining = 2000 - this.value.length;
+      charCounter.textContent = remaining + ' characters remaining';
+      
+      if (remaining < 0) {
+        charCounter.className = 'char-counter danger';
+      } else if (remaining < 100) {
+        charCounter.className = 'char-counter warning';
+      } else {
+        charCounter.className = 'char-counter';
+      }
+    });
     
-    // Escape HTML to prevent XSS in displayed messages
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-    
-    // Email validation (matches backend)
+    // Email validation function
     function isValidEmail(email) {
       const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
       return emailRegex.test(email);
     }
     
-    // Show message to user
+    // Escape HTML
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+    
+    // Show message
     function showMessage(type, text) {
       const messageDiv = document.createElement('div');
-      messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
-      messageDiv.innerHTML = type === 'success' ? `✅ ${escapeHtml(text)}` : `❌ ${escapeHtml(text)}`;
-      
+      messageDiv.className = type;
+      messageDiv.innerHTML = (type === 'success' ? '✅ ' : '❌ ') + escapeHtml(text);
       messageContainer.innerHTML = '';
       messageContainer.appendChild(messageDiv);
       
-      // Auto-scroll to message
-      messageContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      
-      // Auto-hide after 5 seconds for success
       if (type === 'success') {
-        setTimeout(() => {
+        setTimeout(function() {
           if (messageDiv.parentNode) {
             messageDiv.style.opacity = '0';
-            setTimeout(() => {
+            setTimeout(function() {
               if (messageDiv.parentNode) messageDiv.remove();
             }, 300);
           }
@@ -498,24 +295,23 @@
       }
     }
     
-    // Clear error styling from inputs
+    // Clear error styles
     function clearErrorStyles() {
-      [nameInput, emailInput, feedbackInput].forEach(input => {
-        input.classList.remove('error-input');
-      });
+      nameInput.classList.remove('error-input');
+      emailInput.classList.remove('error-input');
+      feedbackInput.classList.remove('error-input');
     }
     
-    // Show error styling on specific input
+    // Show error style
     function showErrorStyle(input) {
       input.classList.add('error-input');
-      setTimeout(() => {
+      setTimeout(function() {
         input.classList.remove('error-input');
       }, 3000);
     }
     
-    // Validate form fields (frontend validation)
+    // Validate form
     function validateForm(name, email, feedback) {
-      // Check empty fields
       if (!name.trim()) {
         showMessage('error', 'Please enter your name');
         showErrorStyle(nameInput);
@@ -537,7 +333,6 @@
         return false;
       }
       
-      // Check name length
       if (name.trim().length < 2) {
         showMessage('error', 'Name must be at least 2 characters long');
         showErrorStyle(nameInput);
@@ -552,7 +347,6 @@
         return false;
       }
       
-      // Check email format
       if (!isValidEmail(email)) {
         showMessage('error', 'Please enter a valid email address (e.g., name@domain.com)');
         showErrorStyle(emailInput);
@@ -560,16 +354,8 @@
         return false;
       }
       
-      // Check feedback length
       if (feedback.trim().length < 5) {
         showMessage('error', 'Feedback must be at least 5 characters long');
-        showErrorStyle(feedbackInput);
-        feedbackInput.focus();
-        return false;
-      }
-      
-      if (feedback.trim().length > 2000) {
-        showMessage('error', 'Feedback must be less than 2000 characters');
         showErrorStyle(feedbackInput);
         feedbackInput.focus();
         return false;
@@ -578,55 +364,31 @@
       return true;
     }
     
-    // Reset form to initial state
-    function resetForm() {
-      form.reset();
-      messageContainer.innerHTML = '';
-      clearErrorStyles();
-      
-      // Show temporary reset message
-      const tempMsg = document.createElement('div');
-      tempMsg.className = 'success-message';
-      tempMsg.innerHTML = '🔄 Form has been reset';
-      tempMsg.style.opacity = '0.8';
-      messageContainer.appendChild(tempMsg);
-      
-      setTimeout(() => {
-        if (tempMsg.parentNode) tempMsg.remove();
-      }, 2000);
-    }
-    
-    // ============================================
-    // Form Submission Handler
-    // ============================================
+    // Handle form submission
     async function handleSubmit(e) {
       e.preventDefault();
       
-      // Get form values
       const name = nameInput.value;
       const email = emailInput.value;
       const feedback = feedbackInput.value;
       
-      // Frontend validation
       if (!validateForm(name, email, feedback)) {
         return;
       }
       
-      // Disable button and show loading state
+      // Disable button and show loading
       submitBtn.disabled = true;
-      const originalButtonText = submitBtn.innerHTML;
+      const originalText = submitBtn.innerHTML;
       submitBtn.innerHTML = '<span class="spinner"></span> Submitting...';
       
-      // Clear previous messages and errors
       messageContainer.innerHTML = '';
       clearErrorStyles();
       
       try {
-        // Send request to API
         const response = await fetch(API_URL, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             name: name.trim(),
@@ -638,14 +400,13 @@
         const result = await response.json();
         
         if (response.ok && result.success) {
-          // Success - show message and reset form
-          showMessage('success', `${result.message} Thank you for your feedback!`);
+          showMessage('success', result.message + ' Thank you for your feedback!');
           form.reset();
+          charCounter.textContent = '2000 characters remaining';
+          charCounter.className = 'char-counter';
         } else {
-          // Error from server
           showMessage('error', result.error || 'Submission failed. Please try again.');
           
-          // Highlight appropriate field based on error message
           if (result.error && result.error.toLowerCase().includes('email')) {
             showErrorStyle(emailInput);
           } else if (result.error && result.error.toLowerCase().includes('name')) {
@@ -655,94 +416,45 @@
           }
         }
       } catch (error) {
-        console.error('Submission error:', error);
-        
-        // Network or other error
+        console.error('Error:', error);
         if (!navigator.onLine) {
-          showMessage('error', 'No internet connection. Please check your network and try again.');
+          showMessage('error', 'No internet connection. Please check your network.');
         } else {
-          showMessage('error', 'Unable to connect to server. Please make sure the backend is running.');
+          showMessage('error', 'Unable to connect to server. Please try again.');
         }
       } finally {
-        // Re-enable button
         submitBtn.disabled = false;
-        submitBtn.innerHTML = originalButtonText;
+        submitBtn.innerHTML = originalText;
       }
     }
     
-    // ============================================
-    // Real-time Validation (Optional)
-    // ============================================
-    
-    // Real-time email validation on blur
-    emailInput.addEventListener('blur', () => {
-      const email = emailInput.value;
+    // Real-time email validation
+    emailInput.addEventListener('blur', function() {
+      const email = this.value;
       if (email && !isValidEmail(email)) {
-        emailInput.classList.add('error-input');
+        this.classList.add('error-input');
       } else {
-        emailInput.classList.remove('error-input');
+        this.classList.remove('error-input');
       }
     });
     
     // Remove error class on focus
-    [nameInput, emailInput, feedbackInput].forEach(input => {
-      input.addEventListener('focus', () => {
-        input.classList.remove('error-input');
-      });
+    nameInput.addEventListener('focus', function() {
+      this.classList.remove('error-input');
     });
     
-    // Live character counter for feedback
-    const feedbackCounter = document.createElement('div');
-    feedbackCounter.style.cssText = 'font-size: 11px; color: #718096; margin-top: 5px; text-align: right;';
-    feedbackInput.parentNode.appendChild(feedbackCounter);
-    
-    feedbackInput.addEventListener('input', () => {
-      const remaining = 2000 - feedbackInput.value.length;
-      if (remaining < 0) {
-        feedbackCounter.style.color = '#e53e3e';
-        feedbackCounter.textContent = `Exceeded by ${Math.abs(remaining)} characters`;
-      } else {
-        feedbackCounter.style.color = remaining < 100 ? '#ecc94b' : '#718096';
-        feedbackCounter.textContent = `${remaining} characters remaining`;
-      }
+    emailInput.addEventListener('focus', function() {
+      this.classList.remove('error-input');
     });
     
-    // ============================================
-    // Event Listeners
-    // ============================================
+    feedbackInput.addEventListener('focus', function() {
+      this.classList.remove('error-input');
+    });
+    
+    // Form submit event
     form.addEventListener('submit', handleSubmit);
     
-    // Reset link handler
-    document.getElementById('resetLink').addEventListener('click', (e) => {
-      e.preventDefault();
-      resetForm();
-    });
-    
-    // ============================================
-    // Check API Health on Page Load (Optional)
-    // ============================================
-    async function checkAPIHealth() {
-      try {
-        // Simple check to see if API is reachable
-        const response = await fetch(API_URL, { method: 'OPTIONS' });
-        if (response.ok) {
-          console.log('✅ API is reachable');
-        }
-      } catch (error) {
-        console.warn('⚠️ API may not be reachable. Make sure backend is running.');
-        if (window.location.hostname === 'localhost') {
-          console.info('Run `vercel dev` to start local server');
-        }
-      }
-    }
-    
-    // Run health check only in development
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      checkAPIHealth();
-    }
-    
-    // Log successful load
-    console.log('✅ Feedback form loaded successfully');
+    console.log('Feedback form loaded successfully');
   </script>
 </body>
 </html>
