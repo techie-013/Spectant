@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Feedback Form</title>
+  <style>
+    body { font-family: Arial; max-width: 500px; margin: 50px auto; padding: 20px; }
+    input, textarea { width: 100%; padding: 8px; margin: 8px 0; }
+    button { background: blue; color: white; padding: 10px; border: none; cursor: pointer; }
+    .error { color: red; }
+    .success { color: green; }
+  </style>
+</head>
+<body>
+  <h2>Feedback Form</h2>
+  <form id="feedbackForm">
+    <input type="text" id="name" placeholder="Name" />
+    <input type="email" id="email" placeholder="Email" />
+    <textarea id="feedback" rows="4" placeholder="Your feedback"></textarea>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="message"></div>
+
+  <script>
+    document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const feedback = document.getElementById('feedback').value;
+
+      const response = await fetch('/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, feedback })
+      });
+      const result = await response.json();
+      const msgDiv = document.getElementById('message');
+      if (response.ok) {
+        msgDiv.innerHTML = `<span class="success">${result.message}</span>`;
+        document.getElementById('feedbackForm').reset();
+      } else {
+        msgDiv.innerHTML = `<span class="error">${result.error}</span>`;
+      }
+    });
+  </script>
+</body>
+</html>
